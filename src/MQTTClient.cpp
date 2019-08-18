@@ -141,7 +141,7 @@ void MQTTClient::begin(const char hostname[], int port, Client &client) {
 void MQTTClient::onMessage(MQTTClientCallbackSimple cb) {
   // set callback
   this->callback.client = this;
-  this->callback.simple = [cb](String &topic, String &payload) { cb(topic, payload) };
+  this->callback.simple = [cb](String &topic, String &payload) { cb(topic, payload); };
   this->callback.advanced = nullptr;
 }
 
@@ -157,7 +157,7 @@ void MQTTClient::onMessageAdvanced(MQTTClientCallbackAdvanced cb) {
   this->callback.client = this;
   this->callback.simple = nullptr;
   this->callback.advanced = [cb](MQTTClient *client, char topic[], char bytes[], int length) {
-    cb(client, topic, bytes, length)
+    cb(client, topic, bytes, length);
   };
 }
 
