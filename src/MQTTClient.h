@@ -27,8 +27,8 @@ typedef void (*MQTTClientCallbackAdvanced)(MQTTClient *client, char topic[], cha
 
 typedef struct {
   MQTTClient *client = nullptr;
-  MQTTClientCallbackSimple simple = nullptr;
-  MQTTClientCallbackAdvanced advanced = nullptr;
+  std::function<void(String &, String &)> simple = nullptr;
+  std::function<void(MQTTClient *, char *, char *, int)> advanced = nullptr;
 } MQTTClientCallback;
 
 class MQTTClient {
@@ -65,7 +65,9 @@ class MQTTClient {
   void begin(const char hostname[], int port, Client &client);
 
   void onMessage(MQTTClientCallbackSimple cb);
+  void onMessage(std::function<void(String &, String &)> cb);
   void onMessageAdvanced(MQTTClientCallbackAdvanced cb);
+  void onMessageAdvanced(std::function<void(MQTTClient *, char *, char *, int)> cb);
 
   void setClockSource(MQTTClientClockSource cb);
 
